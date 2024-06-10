@@ -1,6 +1,7 @@
 // TODO: Update to match your plugin's package name.
 package org.godotengine.plugin.android.template;
 
+import android.util.ArraySet;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,7 +16,10 @@ import com.ironsource.mediationsdk.sdk.LevelPlayRewardedVideoListener;
 import org.godotengine.godot.Godot;
 import org.godotengine.godot.GodotLib;
 import org.godotengine.godot.plugin.GodotPlugin;
+import org.godotengine.godot.plugin.SignalInfo;
 import org.godotengine.godot.plugin.UsedByGodot;
+
+import java.util.Set;
 
 public class GodotAndroidPlugin extends GodotPlugin {
 
@@ -26,7 +30,16 @@ public class GodotAndroidPlugin extends GodotPlugin {
     private boolean InterstitialAvailable=IronSource.isInterstitialReady();
     private boolean RewardVideoAvailable=IronSource.isRewardedVideoAvailable();
 
-
+    @Override
+    public Set<SignalInfo> getPluginSignals()
+    {
+        Set<SignalInfo> signals = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
+            signals = new ArraySet<>();
+        }
+        signals.add(new SignalInfo("testSignal", String.class));
+        return signals;
+    }
     @Override
     public void onMainResume() {
         super.onMainResume();
@@ -141,11 +154,7 @@ public class GodotAndroidPlugin extends GodotPlugin {
             @Override
             public void onAdClosed(AdInfo adInfo) {
                 ShowToast("Android: Reward closed");
-                GodotLib.calldeferred(
-                        instance_id,
-                        "on_rewarded_video_ad_closed",
-                        new Object[] { "Text value ", 1 }
-                );
+                emitSignal("testSignal", "Finally reward claimed");
             }
         });
     }
