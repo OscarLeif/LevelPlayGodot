@@ -33,10 +33,23 @@ class AndroidExportPlugin extends EditorExportPlugin:
 
 	func _get_android_dependencies(platform, debug):
 		# TODO: Add remote dependices here.
-		if debug:
-			return PackedStringArray([])
-		else:
-			return PackedStringArray([])
+		if not _supports_platform(platform):
+			return PackedStringArray()
+
+		return PackedStringArray([
+			"com.ironsource.sdk:mediationsdk:8.1.0",
+			"com.ironsource:adqualitysdk:7.20.0",
+			"com.google.android.gms:play-services-appset:16.0.0",
+			"com.google.android.gms:play-services-ads-identifier:18.0.1",
+			"com.google.android.gms:play-services-basement:18.1.0",
+			"com.android.support:appcompat-v7:26.1.0",
+			"com.android.support:support-v4:26.1.0"
+			])
+
+	func _get_android_dependencies_maven_repos(platform: EditorExportPlatform, debug: bool) -> PackedStringArray:
+		return PackedStringArray([
+			"https://android-sdk.is.com/"
+		])
 
 	func _get_name():
 		return _plugin_name

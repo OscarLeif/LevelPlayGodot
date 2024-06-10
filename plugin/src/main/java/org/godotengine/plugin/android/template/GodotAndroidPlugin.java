@@ -19,6 +19,7 @@ import org.godotengine.godot.plugin.GodotPlugin;
 import org.godotengine.godot.plugin.SignalInfo;
 import org.godotengine.godot.plugin.UsedByGodot;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class GodotAndroidPlugin extends GodotPlugin {
@@ -34,10 +35,9 @@ public class GodotAndroidPlugin extends GodotPlugin {
     public Set<SignalInfo> getPluginSignals()
     {
         Set<SignalInfo> signals = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M){
-            signals = new ArraySet<>();
-        }
+        signals = new HashSet<>();
         signals.add(new SignalInfo("testSignal", String.class));
+        signals.add(new SignalInfo("CloseReward", String.class));
         return signals;
     }
     @Override
@@ -146,9 +146,6 @@ public class GodotAndroidPlugin extends GodotPlugin {
 
             @Override
             public void onAdRewarded(Placement placement, AdInfo adInfo) {
-
-                ShowToast("Android Reward Listerner Done");
-                GodotLib.calldeferred(instance_id,godotMethodName,new Object[]{});
             }
 
             @Override

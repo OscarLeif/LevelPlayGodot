@@ -11,8 +11,6 @@ val pluginName = "GodotAndroidPluginTemplate"
 // TODO: Update value to match your plugin's package name.
 val pluginPackageName = "org.godotengine.plugin.android.template"
 
-val myConfig: Configuration by configurations.creating
-
 android {
     namespace = pluginPackageName
     compileSdk = 33
@@ -67,7 +65,7 @@ val copyReleaseAARToDemoAddons by tasks.registering(Copy::class) {
 }
 
 val cleanDemoAddons by tasks.registering(Delete::class) {
-    delete("demo/addons/$pluginName")
+    delete("demo/addons/$pluginName")//Ok this should clean the whole folder
 }
 
 val copyAddonsToDemo by tasks.registering(Copy::class) {
@@ -87,19 +85,4 @@ tasks.named("assemble").configure {
 
 tasks.named<Delete>("clean").apply {
     dependsOn(cleanDemoAddons)
-}
-
-tasks.register<Copy>("copyLibs") {
-    from(configurations["myConfig"])
-    into("libs")
-}
-
-tasks.register("resolveMyConfig") {
-    doLast {
-        configurations["myConfig"].resolve()
-    }
-}
-
-tasks.named("assemble").configure {
-    dependsOn("resolveMyConfig")
 }
