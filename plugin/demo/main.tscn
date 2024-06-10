@@ -16,4 +16,46 @@ offset_right = 320.0
 offset_bottom = 312.0
 text = "Hello World"
 
+[node name="ButtonInitIronSource" type="Button" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 40.0
+offset_top = 368.0
+offset_right = 320.0
+offset_bottom = 430.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "IronSource Init"
+
+[node name="ButtonInterstitial" type="Button" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 380.0
+offset_top = 250.0
+offset_right = 660.0
+offset_bottom = 312.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Show Interstitial"
+
+[node name="ButtonReward" type="Button" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 380.0
+offset_top = 368.0
+offset_right = 660.0
+offset_bottom = 430.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Show Reward"
+
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="ButtonInitIronSource" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="ButtonInterstitial" to="." method="_on_button_interstitial_pressed"]
+[connection signal="pressed" from="ButtonReward" to="." method="_on_button_reward_pressed"]

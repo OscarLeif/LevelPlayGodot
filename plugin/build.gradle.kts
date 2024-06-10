@@ -11,6 +11,8 @@ val pluginName = "GodotAndroidPluginTemplate"
 // TODO: Update value to match your plugin's package name.
 val pluginPackageName = "org.godotengine.plugin.android.template"
 
+val myConfig: Configuration by configurations.creating
+
 android {
     namespace = pluginPackageName
     compileSdk = 33
@@ -40,6 +42,13 @@ android {
 dependencies {
     implementation("org.godotengine:godot:4.2.0.stable")
     // TODO: Additional dependencies should be added to export_plugin.gd as well.
+    implementation("com.ironsource.sdk:mediationsdk:8.1.0")
+    implementation("com.ironsource:adqualitysdk:7.20.0")
+    implementation("com.google.android.gms:play-services-appset:16.0.0")
+    implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
+    implementation("com.google.android.gms:play-services-basement:18.1.0")
+    implementation("com.android.support:appcompat-v7:26.1.0")
+    implementation("com.android.support:support-v4:26.1.0")
 }
 
 // BUILD TASKS DEFINITION
@@ -78,4 +87,19 @@ tasks.named("assemble").configure {
 
 tasks.named<Delete>("clean").apply {
     dependsOn(cleanDemoAddons)
+}
+
+tasks.register<Copy>("copyLibs") {
+    from(configurations["myConfig"])
+    into("libs")
+}
+
+tasks.register("resolveMyConfig") {
+    doLast {
+        configurations["myConfig"].resolve()
+    }
+}
+
+tasks.named("assemble").configure {
+    dependsOn("resolveMyConfig")
 }
