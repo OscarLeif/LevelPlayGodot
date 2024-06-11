@@ -21,6 +21,7 @@ func testSignal(data):
 	#_android_plugin.ShowToast("Godot message: "+str(data))
 
 func _on_button_2_pressed() -> void:
+	LevelPlayAddon._initializeLevelPlay()
 	pass
 	#if _android_plugin:
 		#_android_plugin.InitIronSource(get_instance_id(), "85460dcd")
