@@ -41,9 +41,6 @@ public class GodotAndroidPlugin extends GodotPlugin {
         signals = new HashSet<>();
         signals.add(new SignalInfo("testSignal", String.class));
         signals.add(new SignalInfo("CloseReward", String.class));
-
-        signals.add(new SignalInfo("PauseGodot"));
-        
         return signals;
     }
     @Override

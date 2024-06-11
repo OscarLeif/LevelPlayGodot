@@ -42,11 +42,11 @@ dependencies {
     // TODO: Additional dependencies should be added to export_plugin.gd as well.
     implementation("com.ironsource.sdk:mediationsdk:8.1.0")
     implementation("com.ironsource:adqualitysdk:7.20.0")
-    implementation("com.google.android.gms:play-services-appset:16.0.0")
-    implementation("com.google.android.gms:play-services-ads-identifier:18.0.1")
-    implementation("com.google.android.gms:play-services-basement:18.1.0")
-    implementation("com.android.support:appcompat-v7:26.1.0")
-    implementation("com.android.support:support-v4:26.1.0")
+    implementation("com.google.android.gms:play-services-appset:16.1.0")
+    implementation("com.google.android.gms:play-services-ads-identifier:18.1.0")
+    implementation("com.google.android.gms:play-services-basement:18.4.0")
+    implementation("com.android.support:appcompat-v7:28.0.0")
+    implementation("com.android.support:support-v4:28.0.0")
 }
 
 // BUILD TASKS DEFINITION
