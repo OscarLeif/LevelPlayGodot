@@ -14,7 +14,10 @@ import com.ironsource.mediationsdk.sdk.LevelPlayInterstitialListener;
 import com.ironsource.mediationsdk.sdk.LevelPlayRewardedVideoListener;
 
 import org.godotengine.godot.Godot;
+import org.godotengine.godot.GodotActivity;
+import org.godotengine.godot.GodotHost;
 import org.godotengine.godot.GodotLib;
+import org.godotengine.godot.gl.GodotRenderer;
 import org.godotengine.godot.plugin.GodotPlugin;
 import org.godotengine.godot.plugin.SignalInfo;
 import org.godotengine.godot.plugin.UsedByGodot;
@@ -38,6 +41,9 @@ public class GodotAndroidPlugin extends GodotPlugin {
         signals = new HashSet<>();
         signals.add(new SignalInfo("testSignal", String.class));
         signals.add(new SignalInfo("CloseReward", String.class));
+
+        signals.add(new SignalInfo("PauseGodot"));
+        
         return signals;
     }
     @Override
@@ -172,7 +178,8 @@ public class GodotAndroidPlugin extends GodotPlugin {
 
             @Override
             public void onAdOpened(AdInfo adInfo) {
-
+                ShowToast("Here the game should be paused");
+                //Just send a signal
             }
 
             @Override
@@ -194,6 +201,7 @@ public class GodotAndroidPlugin extends GodotPlugin {
             public void onAdClosed(AdInfo adInfo) {
                 InterstitialAvailable=false;
                 LoadInterstitial();
+                //getGodot().getRenderView().onActivityResumed();
             }
         });
     }
