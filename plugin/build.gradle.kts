@@ -47,6 +47,13 @@ dependencies {
     implementation("com.google.android.gms:play-services-basement:18.4.0")
     implementation("com.android.support:appcompat-v7:28.0.0")
     implementation("com.android.support:support-v4:28.0.0")
+    // Add Facebook Network
+    implementation ("com.ironsource.adapters:facebookadapter:4.3.46")
+    implementation ("com.facebook.android:audience-network-sdk:6.17.0")
+    // Add AdMob and Ad Manager Network
+    implementation ("com.google.android.gms:play-services-ads:23.0.0")
+    implementation ("com.ironsource.adapters:admobadapter:4.3.43")
+
 }
 
 // BUILD TASKS DEFINITION
