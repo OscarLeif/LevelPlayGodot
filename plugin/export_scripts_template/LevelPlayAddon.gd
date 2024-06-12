@@ -1,4 +1,5 @@
-class_name LevelPlayHelper extends Node
+extends Node
+class_name LevelPlayHelper
 
 var _plugin_name = "GodotAndroidPluginTemplate"
 var _plugin_singleton
@@ -24,6 +25,9 @@ func _showHelloWorld():
 
 func ShowInterstitial():
 	_plugin_singleton.ShowInterstitial()
+
+func IsInterstitialAvailable():
+	return _plugin_singleton.IsInterstitialReady()
 
 func ShowRewardVideo(method:String="on_rewarded_video_complete"):
 	_plugin_singleton.ShowRewardVideo("on_rewarded_video_complete")

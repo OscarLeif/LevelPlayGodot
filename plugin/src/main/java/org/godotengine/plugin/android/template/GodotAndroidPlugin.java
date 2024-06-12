@@ -119,6 +119,13 @@ public class GodotAndroidPlugin extends GodotPlugin {
         }
     }
 
+    @UsedByGodot
+    private boolean IsInterstitialReady()
+    {
+        ShowToast("Is Interstitial Ready Working fine");
+        return InterstitialAvailable;
+    }
+
     private void InitializeRewardVideoListener()
     {
         IronSource.setLevelPlayRewardedVideoListener(new LevelPlayRewardedVideoListener() {
