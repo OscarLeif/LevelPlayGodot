@@ -4,6 +4,10 @@ extends Node2D
 #var _plugin_name = "GodotAndroidPluginTemplate"
 #var _android_plugin
 
+var UserAge:int = 16
+
+@onready var DisplayText:TextEdit = get_node("CanvasLayer/PanelStepper/TextEdit")
+
 func _ready():
 	pass
 	#LevelPlayAddon._init()
@@ -56,4 +60,27 @@ func _on_button_interstitial_available_pressed():
 		LevelPlayAddon.ShowToast("Interstitial Ready")
 	else:
 		LevelPlayAddon.ShowToast("Interstitial Not Ready")
+	pass # Replace with function body.
+
+
+
+
+func _on_button_positive_pressed() -> void:
+	UserAge = UserAge+1
+	if UserAge >100:
+		UserAge=100
+	DisplayText.text = str(UserAge)
+	pass # Replace with function body.
+
+
+func _on_button_negative_pressed() -> void:
+	UserAge = UserAge-1
+	if(UserAge<=7):
+		UserAge=7
+	DisplayText.text = str(UserAge)
+	pass # Replace with function body.
+
+
+func _on_button_submit_pressed() -> void:
+	LevelPlayAddon.SetConsent(UserAge)
 	pass # Replace with function body.
