@@ -48,3 +48,12 @@ func on_rewarded_video_ad_closed(name: String, amount: int):
 	pass
 	#if _android_plugin:
 		#_android_plugin.ShowToast("Reward claimed")
+
+
+func _on_button_interstitial_available_pressed():
+	#we could trigger a method to update the signal
+	if LevelPlayAddon.InterstitialAvailable:
+		LevelPlayAddon.ShowToast("Interstitial Ready")
+	else:
+		LevelPlayAddon.ShowToast("Interstitial Not Ready")
+	pass # Replace with function body.

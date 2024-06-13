@@ -51,7 +51,7 @@ dependencies {
     implementation ("com.ironsource.adapters:facebookadapter:4.3.46")
     implementation ("com.facebook.android:audience-network-sdk:6.17.0")
     // Add AdMob and Ad Manager Network
-    implementation ("com.google.android.gms:play-services-ads:23.0.0")
+    implementation ("com.google.android.gms:play-services-ads:23.1.0")
     implementation ("com.ironsource.adapters:admobadapter:4.3.43")
 
 }

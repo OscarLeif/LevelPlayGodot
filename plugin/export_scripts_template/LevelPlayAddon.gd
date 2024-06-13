@@ -4,6 +4,8 @@ class_name LevelPlayHelper
 var _plugin_name = "GodotAndroidPluginTemplate"
 var _plugin_singleton
 
+var InterstitialAvailable: bool
+
 func _ready() -> void:
 	_init()
 
@@ -11,12 +13,14 @@ func _ready() -> void:
 func _init() -> void:
 	if(Engine.has_singleton(_plugin_name)):
 		_plugin_singleton=Engine.get_singleton(_plugin_name)
-		_plugin_singleton.connect("testSignal",testSignal)#The Reward Android to Godot is Here
-		_plugin_singleton.connect("CloseRewardGodot",testSignal)#The Reward Android to Godot is Here
+		#_plugin_singleton.connect("testSignal",testSignal)#The Reward Android to Godot is Here
+		#_plugin_singleton.connect("CloseRewardGodot",testSignal)#The Reward Android to Godot is Here
+		_plugin_singleton.connect("SetInterstitialAvailable", SetInterstitialAvailable)
 		print("Level Play Singleton Ready")
 
 func _initializeLevelPlay():
-	_plugin_singleton.InitIronSource(get_instance_id(), "85460dcd")
+	if _plugin_singleton:
+		_plugin_singleton.InitIronSource(get_instance_id(), "85460dcd")
 
 func _showHelloWorld():
 	if _plugin_singleton:
@@ -24,22 +28,25 @@ func _showHelloWorld():
 		_plugin_singleton.ShowToast("Hello Plugin is improved")
 
 func ShowInterstitial():
-	_plugin_singleton.ShowInterstitial()
+	if _plugin_singleton:
+		_plugin_singleton.ShowInterstitial()
 
-func IsInterstitialAvailable():
-	return _plugin_singleton.IsInterstitialReady()
+func RefreshInterstitialReady():
+	return _plugin_singleton.RefreshInterstitialReady()
 
 func ShowRewardVideo(method:String="on_rewarded_video_complete"):
-	_plugin_singleton.ShowRewardVideo("on_rewarded_video_complete")
+	if _plugin_singleton:
+		_plugin_singleton.ShowRewardVideo("on_rewarded_video_complete")
 
 #Java Callback
 func testSignal(data):
 	pass
 	_plugin_singleton.ShowToast("Godot message: "+str(data))
 
-func CloseReward():
-	if _plugin_singleton:
-		_plugin_singleton.ShowToast("The Reward Ad was Closed")
+#Java Callback
+func SetInterstitialAvailable(isAvailable):
+	InterstitialAvailable=isAvailable
 
-func CloseRewardGodot():
-	pass
+func ShowToast(message: String):
+	if _plugin_singleton:
+		_plugin_singleton.ShowToast(message)

@@ -42,6 +42,32 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Show Interstitial"
 
+[node name="ButtonInterstitialAvailable" type="Button" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 734.0
+offset_top = 249.0
+offset_right = 1014.0
+offset_bottom = 311.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Is Interstitial Ready ?"
+
+[node name="ButtonInterstitialAvailable2" type="Button" parent="."]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 734.0
+offset_top = 368.0
+offset_right = 1014.0
+offset_bottom = 430.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Is Interstitial Ready ?"
+
 [node name="ButtonReward" type="Button" parent="."]
 anchors_preset = 14
 anchor_top = 0.5
@@ -58,4 +84,6 @@ text = "Show Reward"
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
 [connection signal="pressed" from="ButtonInitIronSource" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="ButtonInterstitial" to="." method="_on_button_interstitial_pressed"]
+[connection signal="pressed" from="ButtonInterstitialAvailable" to="." method="_on_button_interstitial_available_pressed"]
+[connection signal="pressed" from="ButtonInterstitialAvailable2" to="." method="_on_button_interstitial_available_pressed"]
 [connection signal="pressed" from="ButtonReward" to="." method="_on_button_reward_pressed"]

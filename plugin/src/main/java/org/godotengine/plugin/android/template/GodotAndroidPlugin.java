@@ -39,10 +39,14 @@ public class GodotAndroidPlugin extends GodotPlugin {
     {
         Set<SignalInfo> signals = null;
         signals = new HashSet<>();
-        signals.add(new SignalInfo("testSignal", String.class));
-        signals.add(new SignalInfo("CloseReward", String.class));
+        //signals.add(new SignalInfo("testSignal", String.class));
+        //signals.add(new SignalInfo("CloseReward", String.class));
+        signals.add(new SignalInfo("SetInterstitialAvailable", boolean.class ));
         return signals;
     }
+
+    //emitSignal("testSignal", "Finally reward claimed");
+
     @Override
     public void onMainResume() {
         super.onMainResume();
@@ -101,6 +105,7 @@ public class GodotAndroidPlugin extends GodotPlugin {
         {
             ShowToast("Show Interstitial here");
             IronSource.showInterstitial();
+
         }
         else
         {
@@ -120,10 +125,9 @@ public class GodotAndroidPlugin extends GodotPlugin {
     }
 
     @UsedByGodot
-    private boolean IsInterstitialReady()
+    private void RefreshInterstitialReady()
     {
-        ShowToast("Is Interstitial Ready Working fine");
-        return InterstitialAvailable;
+        emitSignal("SetInterstitialAvailable", IronSource.isInterstitialReady());
     }
 
     private void InitializeRewardVideoListener()
@@ -161,7 +165,6 @@ public class GodotAndroidPlugin extends GodotPlugin {
             @Override
             public void onAdClosed(AdInfo adInfo) {
                 ShowToast("Android: Reward closed");
-                emitSignal("testSignal", "Finally reward claimed");
             }
         });
     }
@@ -173,11 +176,18 @@ public class GodotAndroidPlugin extends GodotPlugin {
             public void onAdReady(AdInfo adInfo) {
                 ShowToast("Interstitial is Ready");
                 InterstitialAvailable =true;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        emitSignal("SetInterstitialAvailable", true);
+                    }
+                });
+
             }
 
             @Override
             public void onAdLoadFailed(IronSourceError ironSourceError) {
-
+                emitSignal("SetInterstitialAvailable", false);
             }
 
             @Override
@@ -204,6 +214,7 @@ public class GodotAndroidPlugin extends GodotPlugin {
             @Override
             public void onAdClosed(AdInfo adInfo) {
                 InterstitialAvailable=false;
+                emitSignal("SetInterstitialAvailable", false);
                 LoadInterstitial();
                 //getGodot().getRenderView().onActivityResumed();
             }
