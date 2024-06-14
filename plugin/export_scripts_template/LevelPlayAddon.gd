@@ -72,6 +72,7 @@ func SubmitAge(_age:int)->void:
 		save_Age()
 		_plugin_singleton.SubmitConsent(_age)#AndroidCall
 
+#This default appId is the one used on the IronSource Template
 func _initializeLevelPlay(appId:String = "85460dcd"):
 	if _plugin_singleton:
 		_plugin_singleton.InitIronSource(get_instance_id(), appId)
