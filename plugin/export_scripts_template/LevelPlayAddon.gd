@@ -105,3 +105,23 @@ func OnInterstitialClosed() ->void:
 func ShowToast(message: String):
 	if _plugin_singleton:
 		_plugin_singleton.ShowToast(message)
+
+func getNumber()->int:
+	if Engine.has_singleton(_plugin_name):
+		var plugin = Engine.get_singleton(_plugin_name)
+		var value = plugin.call("getIntegerValue");
+		print("Returned value from android plugin: ", value)
+		return value
+	else:
+		print("Android plugin not found")
+		return -1
+
+func getBoolean()->void:
+	var getTrue = false
+	var getFalse= true
+	if _plugin_singleton:
+		getTrue = _plugin_singleton.call("getTrue")
+		print("Get True must be True: " + str(getTrue))
+		getFalse = _plugin_singleton.call("getFalse")
+		print("Get False must be False: " + str(getFalse))
+

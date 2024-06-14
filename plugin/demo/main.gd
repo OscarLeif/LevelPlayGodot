@@ -6,7 +6,7 @@ extends Node2D
 
 var UserAge:int = 16
 
-@onready var DisplayText:TextEdit = get_node("CanvasLayer/PanelStepper/TextEdit")
+#@onready var DisplayText:TextEdit = get_node("CanvasLayer/PanelStepper/TextEdit")
 
 func _ready():
 	pass
@@ -69,7 +69,7 @@ func _on_button_positive_pressed() -> void:
 	UserAge = UserAge+1
 	if UserAge >100:
 		UserAge=100
-	DisplayText.text = str(UserAge)
+	#DisplayText.text = str(UserAge)
 	pass # Replace with function body.
 
 
@@ -77,10 +77,22 @@ func _on_button_negative_pressed() -> void:
 	UserAge = UserAge-1
 	if(UserAge<=7):
 		UserAge=7
-	DisplayText.text = str(UserAge)
+	#DisplayText.text = str(UserAge)
 	pass # Replace with function body.
 
 
 func _on_button_submit_pressed() -> void:
 	LevelPlayAddon.SetConsent(UserAge)
+	pass # Replace with function body.
+
+
+func _on_button_get_integer_pressed() -> void:
+	print("Click get integer")
+	var number= LevelPlayAddon.getNumber()
+	print("The number is " + str(number))
+	pass # Replace with function body.
+
+
+func _on_button_get_bool_pressed() -> void:
+	LevelPlayAddon.getBoolean()
 	pass # Replace with function body.

@@ -75,6 +75,24 @@ public class GodotAndroidPlugin extends GodotPlugin {
     }
 
     @UsedByGodot
+    private int getIntegerValue()
+    {
+        return 42;
+    }
+
+    @UsedByGodot
+    private boolean getTrue()
+    {
+        return true;
+    }
+
+    @UsedByGodot
+    private boolean getFalse()
+    {
+        return false;
+    }
+
+    @UsedByGodot
     private void InitIronSource(int instance_id, String APP_KEY) {
         if (!Initialize) {
             this.instance_id = instance_id;

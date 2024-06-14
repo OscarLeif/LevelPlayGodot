@@ -92,6 +92,35 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Show Reward"
 
+[node name="ButtonGetInteger" type="Button" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.301
+anchor_top = 0.483
+anchor_right = 0.556
+anchor_bottom = 0.579
+offset_left = 0.247955
+offset_top = 0.0159912
+offset_right = -0.512085
+offset_bottom = -0.192078
+grow_horizontal = 2
+grow_vertical = 2
+text = "get Integer Value"
+
+[node name="ButtonGetBool" type="Button" parent="CanvasLayer"]
+anchors_preset = -1
+anchor_left = 0.0388473
+anchor_top = 0.483
+anchor_right = 0.266938
+anchor_bottom = 0.579
+offset_left = 0.247955
+offset_top = 0.0159912
+offset_right = -0.512085
+offset_bottom = -0.192078
+grow_horizontal = 2
+grow_vertical = 2
+text = "get Bool"
+metadata/_edit_use_anchors_ = true
+
 [node name="PanelStepper" type="Panel" parent="CanvasLayer"]
 anchors_preset = -1
 anchor_left = 0.594
@@ -149,5 +178,7 @@ text = "+"
 [connection signal="pressed" from="CanvasLayer/ButtonInterstitialAvailable" to="." method="_on_button_interstitial_available_pressed"]
 [connection signal="pressed" from="CanvasLayer/ButtonSubmit" to="." method="_on_button_submit_pressed"]
 [connection signal="pressed" from="CanvasLayer/ButtonReward" to="." method="_on_button_reward_pressed"]
+[connection signal="pressed" from="CanvasLayer/ButtonGetInteger" to="." method="_on_button_get_integer_pressed"]
+[connection signal="pressed" from="CanvasLayer/ButtonGetBool" to="." method="_on_button_get_bool_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelStepper/ButtonPositive" to="." method="_on_button_positive_pressed"]
 [connection signal="pressed" from="CanvasLayer/PanelStepper/ButtonNegative" to="." method="_on_button_negative_pressed"]
