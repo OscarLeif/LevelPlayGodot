@@ -23,7 +23,8 @@ public class CountryUtils {
         return null;
     }
 
-    // Method to get the device's default country
+    // Method to get the device's default country.
+    // It returns the Device Origin Country
     public static String getDeviceCountry() {
         return Locale.getDefault().getCountry().toUpperCase();
     }
@@ -34,7 +35,14 @@ public class CountryUtils {
         if (simCountry != null) {
             return simCountry;
         }
-        return getDeviceCountry();
+
+        String deviceCountry = getDeviceCountry();
+        if (deviceCountry != null) {
+            return deviceCountry;
+        }
+
+        // Fallback to IP-based geolocation
+        return IpGeolocationUtils.getCountryFromIP();
     }
 
     // Method to check if the country is a European country (GDPR applies)

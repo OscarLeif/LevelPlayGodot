@@ -4,8 +4,6 @@ class_name LevelPlayHelper
 var _plugin_name = "GodotAndroidPluginTemplate"
 var _plugin_singleton
 
-var InterstitialAvailable: bool
-
 var IsCoppaUser:bool
 var IsGDPRUser:bool
 
@@ -19,6 +17,7 @@ var save_path_AGE = "user://User_age.save"
 
 func _ready() -> void:
 	_init()
+	load_saved_Age()
 
 #Autoaload We Make ready the Singleton Node available at start
 func _init() -> void:
@@ -31,15 +30,16 @@ func _init() -> void:
 		_plugin_singleton.GatherConsentSettings()#Java Call
 		load_saved_Age()
 		print("Level Play Singleton Ready")
-		
+
 func save_Age():
 	var file = FileAccess.open(save_path_AGE, FileAccess.WRITE)
-	file.store_var(savedAge)	
-	
+	file.store_var(savedAge)
+
 func load_saved_Age():
 	if FileAccess.file_exists(save_path_AGE):
 		var file = FileAccess.open(save_path_AGE, FileAccess.READ)
 		savedAge = file.get_var()
+		print("Age loaded Skip submit age")
 	else:
 		savedAge=-1
 
@@ -59,16 +59,18 @@ func load_GDPR():
 
 #Java Callback
 #Figure out if the User Is on USA or Europe
-func GetConsentSettings( UseGDPR:bool, UseCOPPA:bool):
-	if UseGDPR:
-		IsGDPRUser = true
-		pass
-	if UseCOPPA:
-		IsCoppaUser=true
-		pass
-	if UseGDPR==false and UseCOPPA==false:
-		pass
-	ShowToast("GATHER GDPR and COPPA User")
+func GetConsentSettings(UseGDPR:bool, UseCOPPA:bool):
+	IsGDPRUser = UseGDPR
+	IsCoppaUser = UseCOPPA
+	#Great now we need the Age to Submit before
+	#Initialize the Iron Source SDK
+	ShowToast("GDPR: " + str(IsGDPRUser) + " Coppa: " + str(UseCOPPA))
+
+func SubmitAge(_age:int)->void:
+	if _plugin_singleton:
+		savedAge=_age
+		save_Age()
+		_plugin_singleton.SubmitConsent(_age)
 
 func _initializeLevelPlay():
 	if _plugin_singleton:
@@ -87,16 +89,16 @@ func RefreshInterstitialReady():
 func ShowRewardVideo(method:String="on_rewarded_video_complete"):
 	if _plugin_singleton:
 		_plugin_singleton.ShowRewardVideo("on_rewarded_video_complete")
-		
+
 func SetUserConsent(_userAge:int):
 	if _plugin_singleton:
 		_plugin_singleton.SubmitConsent(_userAge);
-		
+
 
 #Java Callback
 func SetInterstitialAvailable(isAvailable: bool) -> void:
-	InterstitialAvailable = isAvailable
-	print("InterstitialAvailable set to: %s" % str(InterstitialAvailable))
+	print("Interstitial Is Ready")
+	pass
 
 #Java callback
 func OnInterstitialClosed() ->void:
@@ -125,3 +127,16 @@ func getBoolean()->void:
 		getFalse = _plugin_singleton.call("getFalse")
 		print("Get False must be False: " + str(getFalse))
 
+#Call Java Method
+func IsInterstitialAvailable()->bool:
+	var isReady = false
+	if _plugin_singleton:
+		isReady = _plugin_singleton.call("IsInterstitialReady")
+	return isReady
+
+#Call Java Method
+func IsRewardAvailable()->bool:
+	var isAvailable=false
+	if _plugin_singleton:
+		isAvailable = _plugin_singleton.call("IsRewardVideoAvailable")
+	return isAvailable

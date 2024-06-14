@@ -31,9 +31,6 @@ public class GodotAndroidPlugin extends GodotPlugin {
     private int instance_id = -1;
     private String godotMethodName = "";
     public boolean Initialize = false;
-    private boolean InterstitialAvailable = IronSource.isInterstitialReady();
-    private boolean RewardVideoAvailable = IronSource.isRewardedVideoAvailable();
-
     public static String Signal_SetInterstitialAvailable = "SetInterstitialAvailable";
     public static String Signal_Interstitial_onAdClosed = "Interstitial_onAdClosed";
     public static String Signal_GetConsentSettings = "GetConsentSettings";
@@ -74,6 +71,12 @@ public class GodotAndroidPlugin extends GodotPlugin {
         return BuildConfig.GODOT_PLUGIN_NAME;
     }
 
+    public boolean IsInitialize()
+    {
+        if(Initialize)return true;
+        Log.d("GodotIronSource", "The Plugin is not Initialized");
+        return false;
+    }
     @UsedByGodot
     private int getIntegerValue()
     {
@@ -112,18 +115,18 @@ public class GodotAndroidPlugin extends GodotPlugin {
 
     @UsedByGodot
     private void ShowInterstitial() {
-        if (InterstitialAvailable) {
-            ShowToast("Show Interstitial here");
-            IronSource.showInterstitial();
-        } else {
-            ShowToast("Interstitial not available");
-            LoadInterstitial();
-        }
+            if (IsInitialize()&& IsInterstitialReady()) {
+                ShowToast("Show Interstitial here");
+                IronSource.showInterstitial();
+            } else {
+                ShowToast("Interstitial not available");
+                LoadInterstitial();
+            }
     }
 
     @UsedByGodot
     private void ShowRewardVideo(String signal) {
-        if (IronSource.isRewardedVideoAvailable()) {
+        if (IsInitialize() && IronSource.isRewardedVideoAvailable()) {
             this.godotMethodName = signal;
             IronSource.showRewardedVideo();
         }
@@ -173,7 +176,7 @@ public class GodotAndroidPlugin extends GodotPlugin {
             @Override
             public void onAdReady(AdInfo adInfo) {
                 ShowToast("Interstitial is Ready");
-                InterstitialAvailable = true;
+                //InterstitialAvailable = true;
                 emitSignal(Signal_SetInterstitialAvailable, Boolean.TRUE);
             }
 
@@ -200,7 +203,7 @@ public class GodotAndroidPlugin extends GodotPlugin {
 
             @Override
             public void onAdClosed(AdInfo adInfo) {
-                InterstitialAvailable = false;
+                //InterstitialAvailable = false;
                 emitSignal(Signal_SetInterstitialAvailable, Boolean.FALSE);
                 emitSignal(Signal_Interstitial_onAdClosed);
                 LoadInterstitial();
@@ -208,13 +211,24 @@ public class GodotAndroidPlugin extends GodotPlugin {
         });
     }
 
+    @UsedByGodot
+    private boolean IsInterstitialReady()
+    {
+        return IsInitialize() && IronSource.isInterstitialReady();
+    }
+
+    private boolean IsRewardVideoAvailable()
+    {
+        return IsInitialize() && IronSource.isRewardedVideoAvailable();
+    }
+
     private void LoadRewardVideo() {
-        if (!RewardVideoAvailable)
+        if (!IsRewardVideoAvailable())
             IronSource.loadRewardedVideo();
     }
 
     private void LoadInterstitial() {
-        if (!InterstitialAvailable)
+        if (!IsInterstitialReady())
             IronSource.loadInterstitial();
     }
 
@@ -235,12 +249,13 @@ public class GodotAndroidPlugin extends GodotPlugin {
         ShowToast(message, Toast.LENGTH_SHORT);
     }
 
-    @UsedByGodot
+
+    @UsedByGodot //Must Call before Initialize
     private void SetConsentGDPR(boolean consent) {
         IronSource.setConsent(consent);
     }
 
-    @UsedByGodot
+    @UsedByGodot//Must Call before Initialize
     private void SubmitConsent(int userAge)
     {
         SetChildDirect(userAge);
@@ -255,17 +270,16 @@ public class GodotAndroidPlugin extends GodotPlugin {
         } else {
             IronSource.setMetaData("is_child_directed", "false");
         }
-
         if (CountryUtils.isEuropeanCountry(country)) {
             SetConsentGDPR(age >= 16);
         }
     }
-
     @UsedByGodot
     private void GatherConsentSettings() {
         String deviceCountry = CountryUtils.getDeviceCountry();
-        boolean isGDPR = CountryUtils.isEuropeanCountry(deviceCountry);
-        boolean isCOPPA = CountryUtils.isCoppaCountry(deviceCountry);
+        String userCountry = CountryUtils.getUserCountry(getActivity());
+        boolean isGDPR = CountryUtils.isEuropeanCountry(userCountry);
+        boolean isCOPPA = CountryUtils.isCoppaCountry(userCountry);
         emitSignal(Signal_GetConsentSettings, isGDPR, isCOPPA);
     }
 }
