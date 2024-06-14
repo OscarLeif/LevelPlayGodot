@@ -70,11 +70,11 @@ func SubmitAge(_age:int)->void:
 	if _plugin_singleton:
 		savedAge=_age
 		save_Age()
-		_plugin_singleton.SubmitConsent(_age)
+		_plugin_singleton.SubmitConsent(_age)#AndroidCall
 
-func _initializeLevelPlay():
+func _initializeLevelPlay(appId:String = "85460dcd"):
 	if _plugin_singleton:
-		_plugin_singleton.InitIronSource(get_instance_id(), "85460dcd")
+		_plugin_singleton.InitIronSource(get_instance_id(), appId)
 
 func _showHelloWorld():
 		ShowToast("Hello World 1.0")
