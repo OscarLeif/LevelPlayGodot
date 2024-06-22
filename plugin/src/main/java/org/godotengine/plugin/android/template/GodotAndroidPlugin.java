@@ -2,6 +2,7 @@ package org.godotengine.plugin.android.template;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -106,7 +107,7 @@ public class GodotAndroidPlugin extends GodotPlugin {
                 InitializeInterstitialListener();
                 LoadInterstitial();
                 LoadRewardVideo();
-                ShowToast("Iron source Initialized");
+                ShowToastDebug("Iron source Initialized");
             }));
         } else {
             ShowToast("Iron source is ready", Toast.LENGTH_SHORT);
@@ -116,10 +117,10 @@ public class GodotAndroidPlugin extends GodotPlugin {
     @UsedByGodot
     private void ShowInterstitial() {
             if (IsInitialize()&& IsInterstitialReady()) {
-                ShowToast("Show Interstitial here");
+                ShowToastDebug("Show Interstitial here");
                 IronSource.showInterstitial();
             } else {
-                ShowToast("Interstitial not available");
+                ShowToastDebug("Interstitial not available");
                 LoadInterstitial();
             }
     }
@@ -140,8 +141,9 @@ public class GodotAndroidPlugin extends GodotPlugin {
     private void InitializeRewardVideoListener() {
         IronSource.setLevelPlayRewardedVideoListener(new LevelPlayRewardedVideoListener() {
             @Override
-            public void onAdAvailable(AdInfo adInfo) {
-                ShowToast("Reward video ready");
+            public void onAdAvailable(AdInfo adInfo)
+            {
+                ShowToastDebug("Reward video ready");
             }
 
             @Override
@@ -175,7 +177,7 @@ public class GodotAndroidPlugin extends GodotPlugin {
         IronSource.setLevelPlayInterstitialListener(new LevelPlayInterstitialListener() {
             @Override
             public void onAdReady(AdInfo adInfo) {
-                ShowToast("Interstitial is Ready");
+                ShowToastDebug("Interstitial is Ready");
                 //InterstitialAvailable = true;
                 emitSignal(Signal_SetInterstitialAvailable, Boolean.TRUE);
             }
@@ -245,10 +247,19 @@ public class GodotAndroidPlugin extends GodotPlugin {
     }
 
     @UsedByGodot
-    private void ShowToast(String message) {
+    private void ShowToast(String message)
+    {
         ShowToast(message, Toast.LENGTH_SHORT);
     }
 
+    @UsedByGodot
+    private void ShowToastDebug(String message)
+    {
+        if(org.godotengine.godot.BuildConfig.DEBUG)
+        {
+            ShowToast(message);
+        }
+    }
 
     @UsedByGodot //Must Call before Initialize
     private void SetConsentGDPR(boolean consent) {

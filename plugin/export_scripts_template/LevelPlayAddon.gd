@@ -64,7 +64,7 @@ func GetConsentSettings(UseGDPR:bool, UseCOPPA:bool):
 	IsCoppaUser = UseCOPPA
 	#Great now we need the Age to Submit before
 	#Initialize the Iron Source SDK
-	ShowToast("GDPR: " + str(IsGDPRUser) + " Coppa: " + str(UseCOPPA))
+	ShowToastDebug("GDPR: " + str(IsGDPRUser) + " Coppa: " + str(UseCOPPA))
 
 func SubmitAge(_age:int)->void:
 	if _plugin_singleton:
@@ -108,6 +108,11 @@ func OnInterstitialClosed() ->void:
 func ShowToast(message: String):
 	if _plugin_singleton:
 		_plugin_singleton.ShowToast(message)
+
+#Java Callback
+func ShowToastDebug(message:String):
+	if _plugin_singleton:
+		_plugin_singleton.ShowToastDebug(message)
 
 func getNumber()->int:
 	if Engine.has_singleton(_plugin_name):
